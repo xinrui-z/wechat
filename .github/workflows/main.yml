@@ -3,7 +3,7 @@ name: Daily Sunrise/Sunset Check
 on:
   schedule:
     # 每天 UTC 时间 8:55 运行（北京时间 16:55）
-    - cron: '55 8 * * *'
+    - cron: '58 8 * * *'
   workflow_dispatch:  # 允许手动触发
 
 jobs:
