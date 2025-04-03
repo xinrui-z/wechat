@@ -1,0 +1,38 @@
+name: Daily Sunrise/Sunset Check
+
+on:
+  schedule:
+    # 每天 UTC 时间 8:55 运行（北京时间 16:55）
+    - cron: '55 8 * * *'
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'  # 指定您的Python版本
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests  # 添加您的依赖包
+
+    - name: Run main.py
+      run: python main.py
+
+    # 可选：将结果保存为artifact
+    - name: Archive output
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: sun-data-result
+        path: |
+          *.log  # 如果有日志文件
+          output.json  # 如果脚本生成输出文件
